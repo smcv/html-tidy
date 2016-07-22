@@ -2,8 +2,14 @@
 #include "perl.h"
 #include "XSUB.h"
 
-#include <tidyp.h>
-#include <buffio.h>
+#ifdef WITH_TIDY
+# include <tidy.h>
+# include <tidybuffio.h>
+#else
+# include <tidyp.h>
+# include <buffio.h>
+#endif
+
 #include <stdio.h>
 #include <errno.h>
 
@@ -196,7 +202,12 @@ _tidyp_version()
     PREINIT:
         const char* version;
     CODE:
+#ifdef WITH_TIDY
+        /* tidy-html5 is required */
+        version = tidyLibraryVersion();
+#else
         version = tidyVersion();
+#endif
         RETVAL = newSVpv(version,0); /* will be automatically "mortalized" */
     OUTPUT:
         RETVAL

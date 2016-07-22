@@ -25,6 +25,12 @@ else {
     $libs = $vars[2];
 
     if ( !$libs ) {
+        @vars = ExtUtils::Liblist->ext( '-L/usr/lib -L/usr/local/lib -ltidy', 0, 1 );
+        $libs = $vars[2];
+        $inc = "-I. -I/usr/include/tidy -I/usr/local/include/tidy -I$Config{usrinc}/tidy -DWITH_TIDY";
+    }
+
+    if ( !$libs ) {
         $libs = '-ltidyp';
         print <<'EOF';
 

@@ -4,6 +4,7 @@ use 5.008;
 use strict;
 use warnings;
 use Carp ();
+use version 0.77 ();
 
 use HTML::Tidy::Message;
 
@@ -354,6 +355,12 @@ sub libtidyp_version { return shift->tidyp_version }
 
 sub tidyp_version {
     my $version_str = _tidyp_version();
+
+    # Convert tidy-html5 versions to the 5.002001 form so they work
+    # with naive numeric comparison
+    if ($version_str !~ m/^0\./) {
+        $version_str = version->parse("v$version_str")->numify;
+    }
 
     return $version_str;
 }
