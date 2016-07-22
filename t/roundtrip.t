@@ -26,12 +26,13 @@ my @messages = $tidy->messages( $clean );
 is_deeply( \@messages, [], q{The cleaned stuff shouldn't have any errors} );
 
 $clean =~ s/"((HTML Tidy|tidyp).+w3\.org|HTML Tidy for HTML5[^"]+)"/"Tidy"/;
+$clean =~ s/<!DOCTYPE html[^>]*>/<!DOCTYPE html>/;
 
 my $expected = do { local $/ = undef; <DATA> };
 is( $clean, $expected, 'Cleaned up properly' );
 
 __DATA__
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!DOCTYPE html>
 <html>
 <head>
 <meta name="generator" content="Tidy">

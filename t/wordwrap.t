@@ -11,7 +11,7 @@ my $input=q{Here's some <B>ed and <BR/>eakfest MarkUp};
 
 my $expected=<<'EOD';
 <!DOCTYPE 
-html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+html>
 <html>
 <head>
 <title>
@@ -32,6 +32,7 @@ my $cfg = 't/wordwrap.cfg';
 my $tidy = HTML::Tidy->new( {config_file => $cfg} );
 
 my $result = $tidy->clean( $input );
+$result =~ s/<!DOCTYPE ?\nhtml[^>]*>/<!DOCTYPE \nhtml>/;
 my @result = split(/\n/, $result);
 is_deeply( \@result, \@expected, 'Cleaned stuff looks like what we expected');
 
