@@ -25,7 +25,7 @@ my @messages = $tidy->messages( $clean );
 
 is_deeply( \@messages, [], q{The cleaned stuff shouldn't have any errors} );
 
-$clean =~ s/"(HTML Tidy|tidyp).+w3\.org"/"Tidy"/;
+$clean =~ s/"((HTML Tidy|tidyp).+w3\.org|HTML Tidy for HTML5[^"]+)"/"Tidy"/;
 
 my $expected = do { local $/ = undef; <DATA> };
 is( $clean, $expected, 'Cleaned up properly' );

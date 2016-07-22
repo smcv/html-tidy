@@ -30,8 +30,7 @@ ok(utf8::is_utf8($reference), 'reference is utf8');
 my $clean = $tidy->clean( $html );
 ok(utf8::is_utf8($clean), 'cleaned output is also unicode');
 
-$clean =~ s/"HTML Tidy.+w3\.org"/"Tidy"/;
-$clean =~ s/"(HTML Tidy|tidyp).+w3\.org"/"Tidy"/;
+$clean =~ s/"((HTML Tidy|tidyp).+w3\.org|HTML Tidy for HTML5[^"]*)"/"Tidy"/;
 is($clean, $reference, q{Cleanup didn't break anything});
 
 my @messages = $tidy->messages;
@@ -49,8 +48,7 @@ subtest 'Try send bytes to clean method.' => sub {
     ok(!utf8::is_utf8($html), 'html is row bytes');
     my $clean = $tidy->clean( $html );
     ok(utf8::is_utf8($clean), 'but cleaned output is string');
-    $clean =~ s/"HTML Tidy.+w3\.org"/"Tidy"/;
-    $clean =~ s/"(HTML Tidy|tidyp).+w3\.org"/"Tidy"/;
+    $clean =~ s/"((HTML Tidy|tidyp).+w3\.org|HTML Tidy for HTML5[^"]*)"/"Tidy"/;
     is($clean, $reference, q{Cleanup didn't break anything});
 };
 
