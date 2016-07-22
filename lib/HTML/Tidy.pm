@@ -266,6 +266,10 @@ sub _parse_errors {
             # Summary line we don't want
 
         }
+        elsif ( $line =~ /^Tidy found \d+ warnings? and \d+ errors?!/ ) {
+            # Summary line we don't want
+
+        }
         elsif ( $line eq 'No warnings or errors were found.' ) {
             # Summary line we don't want
 
