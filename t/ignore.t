@@ -10,16 +10,15 @@ use HTML::Tidy;
 my $html = do { local $/ = undef; <DATA> };
 
 my @expected_warnings = split /\n/, q{
-- (1:1) Warning: missing <!DOCTYPE> declaration
-- (23:1) Warning: discarding unexpected <bogotag>
-- (24:XX) Warning: unescaped & which should be written as &amp;
-- (24:XX) Warning: unescaped & which should be written as &amp;
+- (24:1) Warning: discarding unexpected <bogotag>
+- (25:XX) Warning: unescaped & which should be written as &amp;
+- (25:XX) Warning: unescaped & which should be written as &amp;
 };
 chomp @expected_warnings;
 shift @expected_warnings; # First one's blank
 
 my @expected_errors = split /\n/, q{
-- (23:1) Error: <bogotag> is not recognized!
+- (24:1) Error: <bogotag> is not recognized!
 };
 chomp @expected_errors;
 shift @expected_errors; # First one's blank
@@ -71,6 +70,7 @@ sub munge_returned {
     }
 }
 __DATA__
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
 <HTML>
 <HEAD>
 	<META HTTP-EQUIV="Content-Type" CONTENT="text/html;CHARSET=iso-8859-1">

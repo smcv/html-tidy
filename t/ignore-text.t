@@ -10,8 +10,8 @@ use HTML::Tidy;
 my $html = do { local $/; <DATA> };
 
 my @expected_messages = split /\n/, q{
-DATA (24:XX) Warning: unescaped & which should be written as &amp;
-DATA (24:XX) Warning: unescaped & which should be written as &amp;
+DATA (26:XX) Warning: unescaped & which should be written as &amp;
+DATA (26:XX) Warning: unescaped & which should be written as &amp;
 };
 
 chomp @expected_messages;
@@ -22,7 +22,7 @@ IGNORE_BOGOTAG: {
     isa_ok( $tidy, 'HTML::Tidy' );
 
     $tidy->ignore( text => qr/bogotag/ );
-    $tidy->ignore( text => [ qr/UNESCAPED/, qr/doctype/i ] );
+    $tidy->ignore( text => [ qr/UNESCAPED/, qr/case-insensitive/i ] );
     # The qr/UNESCAPED/ should not ignore anything because there's no /i
     my $rc = $tidy->parse( 'DATA', $html );
     ok( $rc, 'Parsed OK' );
@@ -44,6 +44,7 @@ sub munge_returned {
     }
 }
 __DATA__
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
 <HTML>
 <HEAD>
 	<META HTTP-EQUIV="Content-Type" CONTENT="text/html;CHARSET=iso-8859-1">
@@ -67,6 +68,7 @@ DIV.TOC P {
 </HEAD>
 <BODY BGCOLOR="white">
 <BOGOTAG>
+<CASE-INSENSITIVE>
     <IMG SRC="/pix/petdance-logo-400x312.gif" HEIGHT=312 WIDTH=400 ALT="Andy & Amy's Pet Supplies & Dance Instruction" ALIGN=RIGHT>
 	<DIV CLASS="TOC">
 	<h2>Perl, Programming &amp; Writing</h2>
